@@ -28,15 +28,16 @@ export const getArtistaById = async (req, res) => {
 
 export const saveArtista = async (req, res) => {
     try {
-        const { nombre, nacionalidad } = req.body;
-        if (!nombre || !nacionalidad) {
-            return res.status(400).json({ status: 'error', msg: 'Faltan campos obligatorios' });
-        }
-        const nuevo = new artistaModel(req.body);
-        const data = await nuevo.save();
-        res.status(201).json({ status: 'ok', data });
+        console.log(req.body);
+
+        const nuevo = await artistaModel.create(req.body);
+
+        res.status(201).json({ status: 'ok', data: nuevo });
     } catch (error) {
-        res.status(400).json({ status: 'error' });
+        res.status(400).json({ 
+            status: 'error', 
+            msg: error.message 
+        });
     }
 };
 
